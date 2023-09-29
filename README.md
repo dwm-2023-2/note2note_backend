@@ -5,7 +5,7 @@
 Clone o repositório:
 
 ```bash
-  git clone 
+  git clone https://github.com/dwm-2023-2/note2note_backend.git
 ```
 
 Entre no diretório do projeto:
@@ -19,7 +19,7 @@ Instale as dependências:
 
 Inicie o servidor de desenvolvimento:
 ```bash
-  
+  node index.js
 ```
 
 Inice o ramificação de desenvolvimento (GitFlow):
@@ -40,3 +40,5 @@ Crie uma *hotfix*:
 ```bash
   git flow hotfix start MYFEATURE
 ```
+
+Crie um arquivo .env e cole o conteúdo de .env.example nele.
