@@ -11,6 +11,7 @@ Clone o repositório:
 Entre no diretório do projeto:
 ```bash
   cd note2note_backend
+```
 
 Instale as dependências:
 ```bash
