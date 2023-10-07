@@ -1,22 +1,21 @@
-//user model
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "users",
+  const Diario = sequelize.define(
+    "diarios",
     {
-      userName: {
+      diarioNome: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
+      diarioDescricao: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password: {
+      privacidade: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
     },
     { timestamps: true }
   );
-  return User;
+  return Diario;
 };
