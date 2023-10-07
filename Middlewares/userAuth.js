@@ -18,7 +18,6 @@ const saveUser = async (req, res, next) => {
     if (username) {
       return res.json(409).send("username already taken");
     }
-
     next();
   } catch (error) {
     console.log(error);
