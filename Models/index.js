@@ -25,11 +25,10 @@ db.sequelize = sequelize;
 
 //connecting to model
 db.users = require("./userModel")(sequelize, DataTypes);
-db.notes = require("./noteModel")(sequelize, DataTypes);
+db.diarios = require("./diarioModel")(sequelize, DataTypes);
 db.saved_notes = require("./savedNoteModel")(sequelize, DataTypes);
 
-db.notes.hasOne(db.saved_notes);
-db.users.hasOne(db.saved_notes);
+db.users.hasMany(db.diarios);
 
 //exporting the module
 module.exports = db;

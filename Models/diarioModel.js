@@ -1,21 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  const Note = sequelize.define(
-    "notes",
+  const Diario = sequelize.define(
+    "diarios",
     {
-      noteName: {
+      diarioNome: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      noteContent: {
+      diarioDescricao: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      noteImage: {
+      privacidade: {
         type: DataTypes.STRING,
         allowNull: true,
       },
     },
     { timestamps: true }
   );
-  return Note;
+  return Diario;
 };
