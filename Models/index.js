@@ -5,7 +5,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 //database name is discover
 
 const sequelize = new Sequelize(
-  "postgres://tylegnry:vZbAzgCpWgePWKPOGBb9Xd4GaJReL7_A@babar.db.elephantsql.com/tylegnry",
+  "postgres://postgres:Kaju@postgres-db:5432/notedb",
   { dialect: "postgres" }
 );
 
