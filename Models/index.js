@@ -4,10 +4,14 @@ const { Sequelize, DataTypes } = require("sequelize");
 //Database connection with dialect of postgres specifying the database we are using
 //database name is discover
 
-const sequelize = new Sequelize(
-  "postgres://postgres:Kaju@postgres-db:5432/notedb",
-  { dialect: "postgres" }
-);
+const sequelize = new Sequelize({
+  dialect: 'postgres',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
 
 //checking if connection is done
 sequelize
