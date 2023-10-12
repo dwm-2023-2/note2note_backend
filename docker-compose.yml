@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     container_name: api
-    image: uiuq/diario-online-backend:0.1
+    image: uiuq/diario-online-backend:0.2
 
     ports:
       - "8080:8080"
