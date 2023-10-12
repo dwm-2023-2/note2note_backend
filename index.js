@@ -9,7 +9,7 @@ const noteRoutes = require("./Routes/noteRoutes");
 const cors = require("cors");
 
 //setting up your port
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.DB_PORT;
 
 //assigning the variable app to express
 const app = express();
