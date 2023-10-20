@@ -10,7 +10,7 @@ const RegistroDiarioRoutes = require("./Routes/RegistroDiarioRoutes");
 const cors = require("cors");
 
 //setting up your port
-const PORT = process.env.DB_PORT;
+const PORT = process.env.PORT;
 
 //assigning the variable app to express
 const app = express();
