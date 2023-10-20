@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     const RegistroDiario = sequelize.define(
         "registro",
         {
-
             TítuloRegistro: {
                 type: DataTypes.STRING,
                 allowNull: false,
