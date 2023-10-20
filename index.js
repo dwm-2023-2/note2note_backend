@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const db = require("./Models");
 const userRoutes = require("./Routes/userRoutes");
 const noteRoutes = require("./Routes/noteRoutes");
+const RegistroDiarioRoutes = require("./Routes/RegistroDiarioRoutes");
 const cors = require("cors");
 
 //setting up your port
@@ -30,10 +31,12 @@ app.get("/", (req, res) => {
 });
 
 //routes for the user API
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
 
 //routes for the note API
-app.use("/api/notes", noteRoutes);
+app.use("/notes", noteRoutes);
+
+app.use("/router", RegistroDiarioRoutes);
 
 //listening to server connection
 app.listen(PORT, () => console.log(`Server is connected on ${PORT}`));
