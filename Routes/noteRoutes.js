@@ -1,13 +1,13 @@
 const express = require("express");
-const noteController = require("../Controllers/noteController");
-const { createNote, findAllNotes, findNote, updateNote, deleteNote } =
-  noteController;
+const diarioController = require("../Controllers/diarioController");
+const { createDiarios, findAllDiarios, findDiarios, updateDiario, deleteDiario } =
+  diarioController;
 const router = express.Router();
 
-router.post("/note", createNote);
-router.get("/notes", findAllNotes);
-router.get("/note/:id", findNote);
-router.put("/note/:id", updateNote);
-router.delete("/note/:id", deleteNote);
+router.post("/note", createDiarios);
+router.get("/notes", findAllDiarios);
+router.get("/note/:id", findDiarios);
+router.put("/note/:id", updateDiario);
+router.delete("/note/:id", deleteDiario);
 
 module.exports = router;
