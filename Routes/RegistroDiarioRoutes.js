@@ -4,9 +4,9 @@ const { createRegistroDiario, findAllRegsDiario, findRegsDiario, updateRegsDiari
 const router = express.Router();
 
 router.post("/RegistroDiario", createRegistroDiario);
-router.post("/RegistroDiario", findAllRegsDiario);
-router.post("/RegistroDiario/:id", findRegsDiario);
-router.post("/RegistroDiario/:id", updateRegsDiario);
+router.get("/RegistroDiario", findAllRegsDiario);
+router.get("/RegistroDiario/:id", findRegsDiario);
+router.put("/RegistroDiario/:id", updateRegsDiario);
 router.delete("/RegistroDiario/:id", deleteRegsDiario);
 
 module.exports = router
