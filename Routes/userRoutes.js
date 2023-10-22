@@ -1,6 +1,6 @@
 const express = require("express");
 const userController = require("../Controllers/userController");
-const { signup, login, findAllUsers, findUser, updateUserName, deleteUser } =
+const { signup, login, findAllUsers, findUser, updateUserName, deleteUser, updateUserEmail } =
   userController;
 const userAuth = require("../Middlewares/userAuth");
 const router = express.Router();
@@ -11,5 +11,6 @@ router.get("/users", findAllUsers);
 router.get("/:id", findUser);
 router.put("/:id", updateUserName);
 router.delete("/:id", deleteUser);
+router.put("/:id", updateUserEmail);
 
 module.exports = router;

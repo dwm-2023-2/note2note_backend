@@ -171,6 +171,29 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateUserEmail = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const user = await User.findByPk(id);
+    User.update({email: req.body.emaild},{where: {id: id} })
+      .then((num) => {
+        if (num == 1){
+          res.send({
+            message: "Email was updated successfully.",
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error updating user email with id=" + id,
+        });
+      });
+  }catch(erro) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -178,4 +201,5 @@ module.exports = {
   findUser,
   updateUserName,
   deleteUser,
+  updateUserEmail,
 };
