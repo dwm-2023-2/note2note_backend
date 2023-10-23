@@ -9,8 +9,8 @@ router.post("/signup", userAuth.saveUser, signup);
 router.post("/login", login);
 router.get("/users", findAllUsers);
 router.get("/:id", findUser);
-router.put("/:id", updateUserName);
+router.put("/:id/updateName", updateUserName);
 router.delete("/:id", deleteUser);
-router.put("/:id", updateUserEmail);
+router.put("/:id/updateUserEmail", updateUserEmail);
 
 module.exports = router;

@@ -5,7 +5,7 @@ const { createDiarios, findAllDiarios, findDiarios, updateDiario, deleteDiario }
 const router = express.Router();
 
 router.post("/diario", createDiarios);
-router.get("/diario", findAllDiarios);
+router.get("/diarios", findAllDiarios);
 router.get("/diario/:id", findDiarios);
 router.put("/diario/:id", updateDiario);
 router.delete("/diario/:id", deleteDiario);
