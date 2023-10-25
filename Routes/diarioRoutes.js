@@ -4,10 +4,10 @@ const { createDiarios, findAllDiarios, findDiarios, updateDiario, deleteDiario }
   diarioController;
 const router = express.Router();
 
-router.post("/note", createDiarios);
-router.get("/notes", findAllDiarios);
-router.get("/note/:id", findDiarios);
-router.put("/note/:id", updateDiario);
-router.delete("/note/:id", deleteDiario);
+router.post("/diario", createDiarios);
+router.get("/diario", findAllDiarios);
+router.get("/diario/:id", findDiarios);
+router.put("/diario/:id", updateDiario);
+router.delete("/diario/:id", deleteDiario);
 
 module.exports = router;
