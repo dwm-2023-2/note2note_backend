@@ -1,0 +1,68 @@
+name: push to production
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-push-to-docker:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: apt-get
+        run: sudo apt update
+
+      - name: install node
+        run: sudo apt install nodejs
+
+      - name: run npm install
+        run: npm install
+
+      - name: rename .env
+        run: cp .env.example .env
+
+      - name: Log in to Docker Hub
+        run: |
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build and tag image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/testedeploy:latest . |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/testedeploy:${{ github.run_number }} .
+
+      - name: Push image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/testedeploy:latest | 
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/testedeploy:${{ github.run_number }}
+  modifygit:
+    needs: build-and-push-to-docker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./k8s
+    steps:
+      - uses: actions/checkout@v3
+        name: changing the deployment of git repo
+        with:
+          repository: "dwm-2023-2/k8s"
+      - name: modify the image
+        run: |
+          git config user.email ${{ secrets.GIT_EMAIL }}
+          git config user.name ${{ secrets.GIT_USERNAME }}
+          git branch -m main
+          pwd
+          cat api-deploy.yaml
+          pwd
+          sed -i "s+uiuq/diario-online-backend.*+uiuq/diario-online-backend:$RUN_NUMBER+g" api-deploy.yaml
+          cat api-deploy.yaml
+          git add .
+          git commit -m 'Done  by Github Actions   Job changemanifest: ${{ github.run_number }}'
+          git push origin main
+        env:
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          RUN_NUMBER: ${{ github.run_number }}
