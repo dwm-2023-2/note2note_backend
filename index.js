@@ -5,8 +5,8 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const db = require("./Models");
 const userRoutes = require("./Routes/userRoutes");
-const noteRoutes = require("./Routes/noteRoutes");
-const RegistroDiarioRoutes = require("./Routes/RegistroDiarioRoutes");
+const diarioRoutes = require("./Routes/diarioRoutes");
+const registroDiarioRoutes = require("./Routes/registroDiarioRoutes");
 const cors = require("cors");
 
 //setting up your port
@@ -27,16 +27,16 @@ db.sequelize.sync({ force: false }).then(() => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Express on Vercel");
+  res.send("Note2Note API.");
 });
 
 //routes for the user API
 app.use("/users", userRoutes);
 
 //routes for the note API
-app.use("/notes", noteRoutes);
+app.use("/diarios", diarioRoutes);
 
-app.use("/router", RegistroDiarioRoutes);
+app.use("/registrosdiario", registroDiarioRoutes);
 
 //listening to server connection
 app.listen(PORT, () => console.log(`Server is connected on ${PORT}`));

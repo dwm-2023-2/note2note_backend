@@ -171,6 +171,33 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateUserEmail = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const newEmail = req.body.email;
+
+    const existingUser = await User.findOne({ where: { email: newEmail } });
+
+    if (existingUser) {
+      return res.status(409).send("Email already exists in the database.");
+    }
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.email = newEmail;
+    await user.save();
+
+    return res.status(200).send("Email updated successfully");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Internal server error");
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -178,4 +205,5 @@ module.exports = {
   findUser,
   updateUserName,
   deleteUser,
+  updateUserEmail,
 };
