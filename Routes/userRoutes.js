@@ -1,7 +1,14 @@
 const express = require("express");
 const userController = require("../Controllers/userController");
-const { signup, login, findAllUsers, findUser, updateUserName, deleteUser, updateUserEmail } =
-  userController;
+const {
+  signup,
+  login,
+  findAllUsers,
+  findUser,
+  updateUserName,
+  deleteUser,
+  updateUserEmail,
+} = userController;
 const userAuth = require("../Middlewares/userAuth");
 const router = express.Router();
 
