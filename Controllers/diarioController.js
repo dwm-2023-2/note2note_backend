@@ -5,11 +5,12 @@ const Diario = db.diarios;
 
 const createDiarios = async (req, res) => {
     try {
-      const { diarioName, diarioContent, diarioImage } = req.body;
+      const { diarioNome, diarioDescricao, privacidade,userId } = req.body;
       const data = {
-        diarioName,
-        diarioContent,
-        diarioImage,
+        diarioNome,
+        diarioDescricao,
+        privacidade,
+        userId,
       };
       const diario = await Diario.create(data);
       if (diario) {
