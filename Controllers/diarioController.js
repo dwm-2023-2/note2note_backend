@@ -7,9 +7,9 @@ const createDiarios = async (req, res) => {
     try {
       const { diarioName, diarioContent, diarioImage } = req.body;
       const data = {
-        diarioNome,
-        diarioDescricao,
-        privacidade,
+        diarioName,
+        diarioContent,
+        diarioImage,
       };
       const diario = await Diario.create(data);
       if (diario) {
