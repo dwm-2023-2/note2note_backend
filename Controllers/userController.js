@@ -6,6 +6,15 @@ const User = db.users;
 const signup = async (req, res) => {
   try {
     const { userName, email, password } = req.body;
+
+    const newEmail = req.body.email;
+
+    const existingUser = await User.findOne({ where: { email: newEmail } });
+
+    if (existingUser) {
+      return res.status(409).send("Email already exists in the database.");
+    }
+    
     const data = {
       userName,
       email,
