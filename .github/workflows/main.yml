@@ -8,10 +8,6 @@ jobs:
   build-and-push-to-docker:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: back
-
     steps:
       - uses: actions/checkout@v3
       - name: apt-get
@@ -42,9 +38,7 @@ jobs:
   modifygit:
     needs: build-and-push-to-docker
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./k8s
+   
     steps:
       - uses: actions/checkout@v3
         name: changing the deployment of git repo
