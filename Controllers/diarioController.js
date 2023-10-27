@@ -1,19 +1,20 @@
 const bcrypt = require("bcrypt");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
-const Note = db.notes;
+const Diario = db.diarios;
 
-const createNote = async (req, res) => {
+const createDiarios = async (req, res) => {
   try {
-    const { noteName, noteContent, noteImage } = req.body;
+    const { diarioNome, diarioDescricao, privacidade, userId } = req.body;
     const data = {
-      noteName,
-      noteContent,
-      noteImage,
+      diarioNome,
+      diarioDescricao,
+      privacidade,
+      userId,
     };
-    const note = await Note.create(data);
-    if (note) {
-      return res.status(201).send(note);
+    const diario = await Diario.create(data);
+    if (diario) {
+      return res.status(201).send(diario);
     } else {
       return res.status(409).send("Details are not correct");
     }
@@ -22,9 +23,9 @@ const createNote = async (req, res) => {
   }
 };
 
-const findAllNotes = async (req, res) => {
+const findAllDiarios = async (req, res) => {
   try {
-    Note.findAll()
+    Diario.findAll()
       .then((data) => {
         res.send(data);
       })
@@ -39,23 +40,23 @@ const findAllNotes = async (req, res) => {
   }
 };
 
-const findNote = async (req, res) => {
+const findDiarios = async (req, res) => {
   try {
     const id = req.params.id;
 
-    Note.findByPk(id)
+    Diario.findByPk(id)
       .then((data) => {
         if (data) {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Note with id=${id}.`,
+            message: `Cannot find Diario with id=${id}.`,
           });
         }
       })
       .catch((err) => {
         res.status(500).send({
-          message: "Error retrieving Note with id=" + id,
+          message: "Error retrieving Diario with id=" + id,
         });
       });
   } catch (error) {
@@ -63,62 +64,61 @@ const findNote = async (req, res) => {
   }
 };
 
-const updateNote = async (req, res) => {
+const updateDiario = async (req, res) => {
   const id = req.params.id;
 
-  Note.update(req.body, {
+  Diario.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Note was updated successfully.",
+          message: "Diario was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Note with id=${id}. Maybe Note was not found or req.body is empty!`,
+          message: `Cannot update Diario with id=${id}. Maybe Diario was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Note with id=" + id,
+        message: "Error updating Diario with id=" + id,
       });
     });
 };
 
-const deleteNote = async (req, res) => {
+const deleteDiario = async (req, res) => {
   try {
     const id = req.params.id;
 
-    Note.destroy({
+    Diario.destroy({
       where: { id: id },
     })
       .then((num) => {
         if (num == 1) {
           res.send({
-            message: "Note was deleted successfully!",
+            message: "Diario was deleted successfully!",
           });
         } else {
           res.send({
-            message: `Cannot delete Note with id=${id}. Maybe Note was not found!`,
+            message: `Cannot delete Diario with id=${id}. Maybe Diario was not found!`,
           });
         }
       })
       .catch((err) => {
         res.status(500).send({
-          message: "Could not delete Note with id=" + id,
+          message: "Could not delete Diario with id=" + id,
         });
       });
   } catch (error) {
     console.log(error);
   }
 };
-
 module.exports = {
-  createNote,
-  findAllNotes,
-  findNote,
-  updateNote,
-  deleteNote,
+  createDiarios,
+  findAllDiarios,
+  findDiarios,
+  updateDiario,
+  deleteDiario,
 };

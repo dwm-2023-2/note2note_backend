@@ -6,6 +6,15 @@ const User = db.users;
 const signup = async (req, res) => {
   try {
     const { userName, email, password } = req.body;
+
+    const newEmail = req.body.email;
+
+    const existingUser = await User.findOne({ where: { email: newEmail } });
+
+    if (existingUser) {
+      return res.status(409).send("Email already exists in the database.");
+    }
+
     const data = {
       userName,
       email,
@@ -15,10 +24,10 @@ const signup = async (req, res) => {
     const user = await User.create(data);
 
     //if user details is captured
-    //generate token with the user's id and the secretKey in the env file
+    //generate token with the user's id and the JWT_SECRET_KEY in the env file
     // set cookie with the token generated
     if (user) {
-      let token = jwt.sign({ id: user.id }, process.env.secretKey, {
+      let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
         expiresIn: 1 * 24 * 60 * 60 * 1000,
       });
 
@@ -37,12 +46,12 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
 
     //find a user by their email
     const user = await User.findOne({
       where: {
-        userName: userName,
+        email: email,
       },
     });
 
@@ -51,10 +60,10 @@ const login = async (req, res) => {
       const isSame = await bcrypt.compare(password, user.password);
 
       //if password is the same
-      //generate token with the user's id and the secretKey in the env file
+      //generate token with the user's id and the JWT_SECRET_KEY in the env file
 
       if (isSame) {
-        let token = jwt.sign({ id: user.id }, process.env.secretKey, {
+        let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
           expiresIn: 1 * 24 * 60 * 60 * 1000,
         });
 
@@ -171,6 +180,33 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateUserEmail = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const newEmail = req.body.email;
+
+    const existingUser = await User.findOne({ where: { email: newEmail } });
+
+    if (existingUser) {
+      return res.status(409).send("Email already exists in the database.");
+    }
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.email = newEmail;
+    await user.save();
+
+    return res.status(200).send("Email updated successfully");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Internal server error");
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -178,4 +214,5 @@ module.exports = {
   findUser,
   updateUserName,
   deleteUser,
+  updateUserEmail,
 };

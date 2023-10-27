@@ -4,10 +4,14 @@ const { Sequelize, DataTypes } = require("sequelize");
 //Database connection with dialect of postgres specifying the database we are using
 //database name is discover
 
-const sequelize = new Sequelize(
-  "postgres://tylegnry:vZbAzgCpWgePWKPOGBb9Xd4GaJReL7_A@babar.db.elephantsql.com/tylegnry",
-  { dialect: "postgres" }
-);
+const sequelize = new Sequelize({
+  dialect: "postgres",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
 
 //checking if connection is done
 sequelize
@@ -26,7 +30,6 @@ db.sequelize = sequelize;
 //connecting to model
 db.users = require("./userModel")(sequelize, DataTypes);
 db.diarios = require("./diarioModel")(sequelize, DataTypes);
-db.saved_notes = require("./savedNoteModel")(sequelize, DataTypes);
 
 db.users.hasMany(db.diarios);
 
