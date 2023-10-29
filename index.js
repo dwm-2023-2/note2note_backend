@@ -20,6 +20,15 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+const corsOptions = {
+  origin: 'nodeport-service',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+
 
 //synchronizing the database and forcing it to false so we dont lose data
 db.sequelize.sync({ force: false }).then(() => {
