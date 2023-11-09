@@ -44,7 +44,6 @@ const findDiarios = async (req, res) => {
   try {
     const id = req.params.id;
 
-
     const token = req.cookies.jwt;
 
     if (!token){
