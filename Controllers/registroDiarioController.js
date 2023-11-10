@@ -58,22 +58,39 @@ const findRegsDiario = async (req, res) => {
   try {
     const id = req.params.id;
 
-    registroDiario
-      .findByPk(id)
-      .then((data) => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find Registry with id=${id}.`,
-          });
-        }
+    const token = req.cookies.jwt;
+
+    if (!token){
+      res.status(401).send({
+        message: 'User is not logged in or has not authorized cookies. Please log in and accept cookies.'
       })
-      .catch((err) => {
-        res.status(500).send({
-          message: "Error retrieving Registry with id=" + id,
-        });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const registro = await registroDiario.findByPk(id);
+
+    if (!registro){
+      res.status(404).send({
+        message: `Unable to find record with id=${id}.`,
       });
+    }
+
+    const diarioAssociado = await Diario.findByPk(registro.diarioAssociadoID);
+
+    if (!diarioAssociado) {
+      res.status(404).send({
+        message: `The journal associated with the record could not be found.`,
+      });
+    }
+
+    if (diarioAssociado.userId === decoded.id){
+      res.send(registro);
+    } else {
+      res.status(403).send({
+        message: 'This record does not belong to this user.',
+      });
+    }
   } catch (error) {
     console.log(error);
   }

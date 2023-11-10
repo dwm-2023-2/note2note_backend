@@ -44,21 +44,31 @@ const findDiarios = async (req, res) => {
   try {
     const id = req.params.id;
 
-    Diario.findByPk(id)
-      .then((data) => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find Diario with id=${id}.`,
-          });
-        }
+    const token = req.cookies.jwt;
+
+    if (!token){
+      res.status(401).send({
+        message: 'User not logged in or has not authorized cookies, please log in and accept cookies'
       })
-      .catch((err) => {
-        res.status(500).send({
-          message: "Error retrieving Diario with id=" + id,
-        });
-      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const diario = await Diario.findByPk(id);
+
+    if (!diario){
+      res.status(404).send({
+        message: `Cannot find Diario with id=${id}.`,
+      })
+    }
+
+    if (diario.userId === decoded.id){
+      res.send(diario);
+    } else{
+      res.status(403).send({
+        message: 'This diary does not belong to this user'
+      })
+    }
   } catch (error) {
     console.log(error);
   }
