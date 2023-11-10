@@ -38,12 +38,13 @@ jobs:
   modifygit:
     needs: build-and-push-to-docker
     runs-on: ubuntu-latest
-   
+
     steps:
       - uses: actions/checkout@v3
         name: changing the deployment of git repo
         with:
           repository: "dwm-2023-2/k8s"
+          token: ${{ secrets.TOKEN }}
       - name: modify the image
         run: |
           git config user.email ${{ secrets.GIT_EMAIL }}
