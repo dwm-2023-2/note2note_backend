@@ -3,10 +3,10 @@ const compartilhamentoController = require ("../Controllers/compartilhamentoCont
 const { createCompartilharDiario, findAllcompartDiario, findcompartDiario, updatecompartDiario, deletecompartDiario, } = compartilhamentoController;
 const router = express.Router();
 
-router.post("/RegistroDiario", createCompartilharDiario);
-router.get("/RegistroDiario", findAllcompartDiario);
-router.get("/RegistroDiario/:id", findcompartDiario);
-router.put("/RegistroDiario/:id", updatecompartDiario);
-router.delete("/RegistroDiario/:id", deletecompartDiario);
+router.post("/CompartilharDiario", createCompartilharDiario);
+router.get("/CompartilharDiario", findAllcompartDiario);
+router.get("/CompartilharDiario/:id", findcompartDiario);
+router.put("/CompartilharDiario/:id", updatecompartDiario);
+router.delete("/CompartilharDiario/:id", deletecompartDiario);
 
 module.exports = router
