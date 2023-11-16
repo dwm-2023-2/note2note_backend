@@ -11,6 +11,7 @@ const sequelize = new Sequelize({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  
 });
 
 //checking if connection is done
@@ -30,6 +31,7 @@ db.sequelize = sequelize;
 //connecting to model
 db.users = require("./userModel")(sequelize, DataTypes);
 db.diarios = require("./diarioModel")(sequelize, DataTypes);
+db.compartilhamentos =require("./compartilhamentoModel")(sequelize,DataTypes);
 
 db.users.hasMany(db.diarios);
 
