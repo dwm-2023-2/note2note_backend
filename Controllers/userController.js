@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
+const { DATE } = require("sequelize");
 const User = db.users;
 
 const signup = async (req, res) => {
@@ -84,6 +85,15 @@ const login = async (req, res) => {
     console.log(error);
   }
 };
+
+const logout = async (req, res) => {
+  try{
+    res.cookie("jwt", "", { expires: new DATE (0), httpOnly: true});
+    return res.status(200).send("User logged out successfully")
+  } catch (error){
+    console.log(error);
+  }
+}
 
 const findAllUsers = async (req, res) => {
   try {
@@ -210,6 +220,7 @@ const updateUserEmail = async (req, res) => {
 module.exports = {
   signup,
   login,
+  logout,
   findAllUsers,
   findUser,
   updateUserName,

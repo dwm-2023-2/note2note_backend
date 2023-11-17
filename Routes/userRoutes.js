@@ -3,6 +3,7 @@ const userController = require("../Controllers/userController");
 const {
   signup,
   login,
+  logout,
   findAllUsers,
   findUser,
   updateUserName,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.post("/signup", userAuth.saveUser, signup);
 router.post("/login", login);
+router.get("/logout", logout);
 router.get("/users", findAllUsers);
 router.get("/:id", findUser);
 router.put("/:id/updateName", updateUserName);
