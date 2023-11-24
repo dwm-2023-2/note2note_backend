@@ -29,7 +29,7 @@ const findAllDiarios = async (userId, res) => {
       where: { userId: userId }
     });
 
-    if (!diarios || diarios.length === 0) {
+    if (!diarios) {
       return res.status(404).send({
         message: 'No diaries found for this user.'
       });
