@@ -15,16 +15,14 @@ router.put("/diario/:id", updateDiario);
 router.delete("/diario/:id", deleteDiario);
 
 router.get("/diarios", (req, res) => {
-  const userId = req.query.userId; // Obtendo o userId da query
+  const userId = req.query.userId; 
 
-  // Verifique se userId foi passado na query
   if (!userId) {
     return res.status(400).send({
       message: 'UserId is required in the query parameters.'
     });
   }
 
-  // Chame a função findAllDiarios passando userId
   findAllDiarios(userId, res);
 });
 
