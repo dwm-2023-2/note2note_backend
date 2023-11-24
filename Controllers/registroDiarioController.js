@@ -1,33 +1,21 @@
 const bcrypt = require("bcrypt");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
-const registroDiario = db.notes;
+const registroDiario = db.registroDiario;
 
 const createRegistroDiario = async (req, res) => {
   try {
-    const {
-      tituloRegistro,
-      dataRegistro,
-      conteudoRegistro,
-      tipoDeMidia,
-      arquivoDeMidia,
-      privacidade,
-      autorID,
-      diarioAssociadoID,
-    } = req.body;
+    const {tituloRegistro, conteudoRegistro, privacidade, userId, diarioAssociadoID,} = req.body;
     const data = {
       tituloRegistro,
-      dataRegistro,
       conteudoRegistro,
-      tipoDeMidia,
-      arquivoDeMidia,
       privacidade,
-      autorID,
+      userId,
       diarioAssociadoID,
     };
-    const regsDiario = await registroDiario.create(data);
-    if (regsDiario) {
-      return res.status(201).send(regsDiario);
+    const RegistroDiario = await registroDiario.create(data);
+    if (RegistroDiario) {
+      return res.status(201).send(RegistroDiario);
     } else {
       return res.status(409).send("Details are not correct");
     }
@@ -37,8 +25,7 @@ const createRegistroDiario = async (req, res) => {
 };
 const findAllRegsDiario = async (req, res) => {
   try {
-    registroDiario
-      .findAll()
+    registroDiario.findAll()
       .then((data) => {
         res.send(data);
       })
