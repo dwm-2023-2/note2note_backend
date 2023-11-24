@@ -23,20 +23,24 @@ const createDiarios = async (req, res) => {
   }
 };
 
-const findAllDiarios = async (req, res) => {
+const findAllDiarios = async (userId, res) => {
   try {
-    Diario.findAll()
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving tutorials.",
-        });
+    const diarios = await Diario.findAll({
+      where: { userId: userId }
+    });
+
+    if (!diarios || diarios.length === 0) {
+      return res.status(404).send({
+        message: 'No diaries found for this user.'
       });
+    }
+
+    res.send(diarios);
   } catch (error) {
     console.log(error);
+    res.status(500).send({
+      message: 'Error retrieving diaries for the user.'
+    });
   }
 };
 
@@ -125,6 +129,7 @@ const deleteDiario = async (req, res) => {
     console.log(error);
   }
 };
+
 module.exports = {
   createDiarios,
   findAllDiarios,
