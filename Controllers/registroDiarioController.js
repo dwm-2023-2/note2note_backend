@@ -5,13 +5,12 @@ const registroDiario = db.registroDiario;
 
 const createRegistroDiario = async (req, res) => {
   try {
-    const {tituloRegistro, conteudoRegistro, privacidade, userId, diarioAssociadoID,} = req.body;
+    const {tituloRegistro, conteudoRegistro, privacidade, diarioId,} = req.body;
     const data = {
       tituloRegistro,
       conteudoRegistro,
       privacidade,
-      userId,
-      diarioAssociadoID,
+      diarioId,
     };
     const RegistroDiario = await registroDiario.create(data);
     if (RegistroDiario) {

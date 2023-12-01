@@ -33,6 +33,6 @@ db.diarios = require("./diarioModel")(sequelize, DataTypes);
 db.registroDiario = require("./registroDiarioModel")(sequelize, DataTypes);
 
 db.users.hasMany(db.diarios);
-
+db.diarios.hasMany(db.registroDiario);
 //exporting the module
 module.exports = db;
