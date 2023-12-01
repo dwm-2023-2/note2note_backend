@@ -87,13 +87,13 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  try{
-    res.cookie("jwt", "", { expires: new DATE (0), httpOnly: true});
-    return res.status(200).send("User logged out successfully")
-  } catch (error){
+  try {
+    res.cookie("jwt", "", { expires: new Date(0), httpOnly: true });
+    return res.status(200).send("User logged out successfully");
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 const findAllUsers = async (req, res) => {
   try {
