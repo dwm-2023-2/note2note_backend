@@ -23,20 +23,24 @@ const createDiarios = async (req, res) => {
   }
 };
 
-const findAllDiarios = async (req, res) => {
+const findAllDiarios = async (userId, res) => {
   try {
-    Diario.findAll()
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving tutorials.",
-        });
+    const diarios = await Diario.findAll({
+      where: { userId: userId }
+    });
+
+    if (!diarios) {
+      return res.status(404).send({
+        message: 'No diaries found for this user.'
       });
+    }
+
+    res.send(diarios);
   } catch (error) {
     console.log(error);
+    res.status(500).send({
+      message: 'Error retrieving diaries for the user.'
+    });
   }
 };
 
@@ -44,32 +48,22 @@ const findDiarios = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const token = req.cookies.jwt;
-
-    if (!token){
-      res.status(401).send({
-        message: 'User not logged in or has not authorized cookies, please log in and accept cookies'
+    Diario.findByPk(id)
+      .then((data) => {
+        if (data) {
+          res.send(data);
+        } else {
+          res.status(404).send({
+            message: `Unable to find journal with id=${id}.`,
+          });
+        }
       })
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-    const diario = await Diario.findByPk(id);
-
-    if (!diario){
-      res.status(404).send({
-        message: `Cannot find Diario with id=${id}.`,
-      })
-    }
-
-    if (diario.userId === decoded.id){
-      res.send(diario);
-    } else{
-      res.status(403).send({
-        message: 'This diary does not belong to this user'
-      })
-    }
-  } catch (error) {
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error retrieving journal with id=" + id,
+        });
+      });
+  } catch (error){
     console.log(error);
   }
 };
@@ -125,6 +119,7 @@ const deleteDiario = async (req, res) => {
     console.log(error);
   }
 };
+
 module.exports = {
   createDiarios,
   findAllDiarios,

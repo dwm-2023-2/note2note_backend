@@ -4,6 +4,8 @@ const {
   signup,
   login,
   logout,
+  forgotPassword,
+  resetPassword, 
   findAllUsers,
   findUser,
   updateUserName,
@@ -21,5 +23,7 @@ router.get("/:id", findUser);
 router.put("/:id/updateName", updateUserName);
 router.delete("/:id", deleteUser);
 router.put("/:id/updateUserEmail", updateUserEmail);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword); 
 
 module.exports = router;

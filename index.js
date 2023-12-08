@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 
 
 //synchronizing the database and forcing it to false so we dont lose data
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({}).then(() => {
   console.log("db has been re sync");
 });
 
