@@ -1,11 +1,12 @@
 const bcrypt = require("bcrypt");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
 const registroDiario = db.registroDiario;
 
 const createRegistroDiario = async (req, res) => {
   try {
-    const {tituloRegistro, conteudoRegistro, privacidade, diarioId,} = req.body;
+    const { tituloRegistro, conteudoRegistro, privacidade, diarioId } = req.body;
     const data = {
       tituloRegistro,
       conteudoRegistro,
@@ -22,15 +23,25 @@ const createRegistroDiario = async (req, res) => {
     console.log(error);
   }
 };
-const findAllRegsDiario = async (diarioId, res) => {
+
+const findAllRegsDiario = async (diarioId, orderBy, res) => {
   try {
+    let order = [['createdAt', 'DESC']]; 
+
+    if (orderBy === 'title') {
+      order = [['tituloRegistro', 'ASC']]; 
+    } else if (orderBy === 'date') {
+      order = [['createdAt', 'ASC']]; 
+    }
+
     const registrosdiarios = await registroDiario.findAll({
-      where: { diarioId: diarioId }
+      where: { diarioId: diarioId },
+      order: order,
     });
-    
+
     if (!registrosdiarios || registrosdiarios.length === 0) {
       return res.status(404).send({
-        message: 'No entries found for this diary.'
+        message: 'No entries found for this diary.',
       });
     }
 
@@ -38,7 +49,7 @@ const findAllRegsDiario = async (diarioId, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      message: 'Error retrieving records from this diary.'
+      message: 'Error retrieving records from this diary.',
     });
   }
 };
@@ -103,7 +114,7 @@ const deleteRegsDiario = async (req, res) => {
       .then((num) => {
         if (num == 1) {
           res.send({
-            message: "Registro wsa deleted successfully!",
+            message: "Registro was deleted successfully!",
           });
         } else {
           res.send({
@@ -121,10 +132,39 @@ const deleteRegsDiario = async (req, res) => {
   }
 };
 
+const findRegsByKeyword = async (req, res) => {
+  try {
+    const keyword = req.query.keyword; 
+
+    const registros = await registroDiario.findAll({
+      where: {
+        [Op.or]: [
+          { tituloRegistro: { [Op.like]: `%${keyword}%` } },
+          { conteudoRegistro: { [Op.like]: `%${keyword}%` } },
+        ],
+      },
+    });
+
+    if (!registros || registros.length === 0) {
+      return res.status(404).send({
+        message: `No entries found containing the keyword '${keyword}'.`,
+      });
+    }
+
+    res.send(registros);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: 'Error retrieving records by keyword.',
+    });
+  }
+};
+
 module.exports = {
   createRegistroDiario,
   findAllRegsDiario,
   findRegsDiario,
   updateRegsDiario,
   deleteRegsDiario,
+  findRegsByKeyword,
 };
