@@ -10,14 +10,14 @@ const transport = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: 'SuporteNote2Note@outlook.com',
+    user: 'Note2NoteSuporte@hotmail.com',
     pass: 'Supnote2',
   }
 });
 
 const sendWelcomeEmail = (email) => {
   transport.sendMail({
-    from: 'Suporte Note2Note <SuporteNote2Note@outlook.com>',
+    from: 'Suporte Note2Note <Note2NoteSuporte@hotmail.com>',
     to: email,
     subject: 'Bem-Vindo',
     html: '<h1>Seja Bem-Vindo ao Note2Note!</h1> <h3>Saudações </h3><p>É uma satisfação receber você como um novo usuário do Note2Note. Esperamos que desfrute ao máximo de sua experiência conosco e que encontre valor em nossa plataforma.</p><br><p>Atenciosamente, Equipe do Note2Note</p>',
