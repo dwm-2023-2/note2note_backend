@@ -117,7 +117,7 @@ const logout = async (req, res) => {
     return res.status(200).send("User logged out successfully")
   } catch (error){
     console.log(error);
-  }
+  }
 }
 
 const findAllUsers = async (req, res) => {
